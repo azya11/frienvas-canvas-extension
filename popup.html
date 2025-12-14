@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canvas Friend Groups</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 Canvas Friend Groups</h1>
+    </header>
+
+    <!-- Canvas Settings Section -->
+    <section id="settings-section" class="section">
+      <h2>Canvas Settings</h2>
+      <div class="form-group">
+        <label for="canvas-url">Canvas URL:</label>
+        <input type="text" id="canvas-url" placeholder="https://canvas.instructure.com">
+      </div>
+      <div class="form-group">
+        <label for="canvas-token">API Token:</label>
+        <input type="password" id="canvas-token" placeholder="Your Canvas API Token">
+        <small>Get your token from Canvas Account → Settings → New Access Token</small>
+      </div>
+      <button id="save-settings" class="btn btn-primary">Save Settings</button>
+      <button id="test-connection" class="btn btn-secondary">Test Connection</button>
+      <div id="settings-status" class="status"></div>
+    </section>
+
+    <!-- Authentication Section -->
+    <section id="auth-section" class="section">
+      <h2>Authentication</h2>
+      <div id="user-info" class="hidden">
+        <p>Signed in as: <span id="user-email"></span></p>
+        <button id="sign-out" class="btn btn-secondary">Sign Out</button>
+      </div>
+      <div id="sign-in-container">
+        <button id="sign-in" class="btn btn-primary">Sign in with Google</button>
+      </div>
+    </section>
+
+    <!-- Group Management Section -->
+    <section id="group-section" class="section">
+      <h2>Friend Groups</h2>
+      <div class="group-actions">
+        <button id="create-group" class="btn btn-primary">Create Group</button>
+        <button id="join-group" class="btn btn-secondary">Join Group</button>
+      </div>
+      
+      <div id="create-group-form" class="hidden">
+        <div class="form-group">
+          <label for="group-name">Group Name:</label>
+          <input type="text" id="group-name" placeholder="Study Group 2024">
+        </div>
+        <button id="submit-create-group" class="btn btn-primary">Create</button>
+        <button id="cancel-create" class="btn btn-secondary">Cancel</button>
+      </div>
+
+      <div id="join-group-form" class="hidden">
+        <div class="form-group">
+          <label for="group-code">Group Code:</label>
+          <input type="text" id="group-code" placeholder="Enter 6-digit code">
+        </div>
+        <button id="submit-join-group" class="btn btn-primary">Join</button>
+        <button id="cancel-join" class="btn btn-secondary">Cancel</button>
+      </div>
+
+      <div id="current-groups">
+        <h3>Your Groups</h3>
+        <div id="groups-list"></div>
+      </div>
+    </section>
+
+    <!-- Deadlines Display Section -->
+    <section id="deadlines-section" class="section">
+      <h2>Upcoming Deadlines</h2>
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="my-deadlines">My Assignments</button>
+        <button class="tab-btn" data-tab="friends-deadlines">Friends' Assignments</button>
+      </div>
+      
+      <div id="my-deadlines" class="tab-content active">
+        <button id="sync-deadlines" class="btn btn-primary">Sync with Canvas</button>
+        <div id="my-assignments-list" class="assignments-list"></div>
+      </div>
+      
+      <div id="friends-deadlines" class="tab-content">
+        <div id="friends-assignments-list" class="assignments-list"></div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="popup-integrated.js"></script>
+</body>
+</html>

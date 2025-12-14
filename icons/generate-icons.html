@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px;
+            text-align: center;
+        }
+        canvas { 
+            border: 1px solid #ccc; 
+            margin: 10px;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Canvas Friend Groups - Icon Generator</h1>
+    <p>Right-click on each canvas and "Save image as..." to save the icons.</p>
+    
+    <div class="icon-preview">
+        <canvas id="icon16" width="16" height="16"></canvas>
+        <p>icon16.png</p>
+    </div>
+    
+    <div class="icon-preview">
+        <canvas id="icon48" width="48" height="48"></canvas>
+        <p>icon48.png</p>
+    </div>
+    
+    <div class="icon-preview">
+        <canvas id="icon128" width="128" height="128"></canvas>
+        <p>icon128.png</p>
+    </div>
+
+    <script>
+        function drawIcon(canvas) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#667eea');
+            gradient.addColorStop(1, '#764ba2');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw book emoji or simple shape
+            ctx.fillStyle = 'white';
+            ctx.font = `${size * 0.6}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('📚', size / 2, size / 2);
+        }
+
+        // Generate all three sizes
+        drawIcon(document.getElementById('icon16'));
+        drawIcon(document.getElementById('icon48'));
+        drawIcon(document.getElementById('icon128'));
+    </script>
+</body>
+</html>

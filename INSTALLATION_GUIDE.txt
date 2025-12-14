@@ -1,0 +1,170 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                   CANVAS FRIEND GROUPS EXTENSION                          ║
+║                        Installation Guide                                 ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+📋 PREREQUISITES
+═══════════════════════════════════════════════════════════════════════════
+  ✓ Chrome Browser
+  ✓ Node.js & npm installed
+  ✓ Canvas account with API access
+  ✓ Firebase account (free tier works)
+
+📦 INSTALLATION STEPS
+═══════════════════════════════════════════════════════════════════════════
+
+STEP 1: Firebase Setup (⏱️ 5 minutes)
+───────────────────────────────────────────────────────────────────────────
+  1. Go to: https://console.firebase.google.com/
+  2. Click "Create a project" (or use existing)
+  3. Enable Google Authentication:
+     • Authentication → Sign-in method → Google → Enable
+  4. Create Firestore Database:
+     • Firestore Database → Create database → Production mode
+  5. Get your config:
+     • Project Settings → General → Your apps → Web
+     • Copy the firebaseConfig object
+  6. Update firebase-config.js with your actual values
+
+STEP 2: Build Extension (⏱️ 2 minutes)
+───────────────────────────────────────────────────────────────────────────
+  In terminal:
+  
+  $ cd /home/azya11/canvas
+  $ ./setup.sh
+  
+  OR manually:
+  
+  $ npm install
+  $ npm run build
+
+STEP 3: Generate Icons (⏱️ 1 minute)
+───────────────────────────────────────────────────────────────────────────
+  1. Open: icons/generate-icons.html in browser
+  2. Right-click each icon → Save image as:
+     • icon16.png
+     • icon48.png  
+     • icon128.png
+  3. Save them in the icons/ folder
+
+STEP 4: Load in Chrome (⏱️ 1 minute)
+───────────────────────────────────────────────────────────────────────────
+  1. Open Chrome
+  2. Go to: chrome://extensions/
+  3. Toggle "Developer mode" (top right)
+  4. Click "Load unpacked"
+  5. Select the "dist" folder (or project root if not built)
+
+STEP 5: Configure Canvas (⏱️ 2 minutes)
+───────────────────────────────────────────────────────────────────────────
+  1. Log into Canvas
+  2. Account → Settings → "+ New Access Token"
+  3. Name it: "Friend Groups Extension"
+  4. Click "Generate Token"
+  5. Copy the token (you won't see it again!)
+  6. Click the extension icon in Chrome
+  7. Enter Canvas URL: https://your-school.instructure.com
+  8. Paste the token
+  9. Click "Save Settings"
+  10. Click "Test Connection" to verify
+
+STEP 6: Start Using! (⏱️ 1 minute)
+───────────────────────────────────────────────────────────────────────────
+  1. Click "Sign in with Google"
+  2. Click "Sync with Canvas"
+  3. Click "Create Group" (or "Join Group" with a friend's code)
+  4. Share your group code with friends!
+  5. View friends' assignments in the "Friends' Assignments" tab
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎨 ICON GENERATION OPTIONS
+═══════════════════════════════════════════════════════════════════════════
+
+Option A: Use the HTML generator (easiest)
+  • Open icons/generate-icons.html
+  • Save the generated images
+
+Option B: Use ImageMagick (if installed)
+  $ cd icons
+  $ convert icon.svg -resize 16x16 icon16.png
+  $ convert icon.svg -resize 48x48 icon48.png
+  $ convert icon.svg -resize 128x128 icon128.png
+
+Option C: Use online tools
+  • Canva: https://www.canva.com/
+  • Figma: https://www.figma.com/
+  • PNG icons: https://www.flaticon.com/
+
+═══════════════════════════════════════════════════════════════════════════
+
+🔥 FIREBASE SECURITY RULES
+═══════════════════════════════════════════════════════════════════════════
+After setting up Firestore, add these rules:
+(Firestore Database → Rules tab)
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    match /groups/{groupCode} {
+      allow read: if request.auth != null && 
+                     request.auth.uid in resource.data.members;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null;
+    }
+  }
+}
+
+═══════════════════════════════════════════════════════════════════════════
+
+🐛 TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════
+
+Problem: "Firebase not configured" error
+Solution: Update firebase-config.js with your actual Firebase credentials
+
+Problem: Canvas API returns 401 error  
+Solution: Regenerate API token in Canvas settings
+
+Problem: Extension icon not showing
+Solution: Generate and save icon16.png, icon48.png, icon128.png in icons/
+
+Problem: Build fails
+Solution: Make sure Node.js is installed, run: npm install
+
+Problem: Friends' assignments not showing
+Solution: Ensure friends have synced their assignments and are in same group
+
+═══════════════════════════════════════════════════════════════════════════
+
+📚 HELPFUL RESOURCES
+═══════════════════════════════════════════════════════════════════════════
+  
+  • Full Documentation: README.md
+  • Quick Start: QUICKSTART.md
+  • Project Overview: PROJECT_SUMMARY.md
+  • Database Schema: FIRESTORE_STRUCTURE.js
+  • Testing: test-extension.js
+
+═══════════════════════════════════════════════════════════════════════════
+
+✨ FEATURES
+═══════════════════════════════════════════════════════════════════════════
+
+  📅 Auto-sync Canvas assignments every 30 minutes
+  👥 Create unlimited friend groups
+  🔐 Secure: Canvas tokens never leave your browser
+  🌐 Real-time updates when friends sync
+  📱 Clean, modern UI
+  🎯 Filter by tabs: My Assignments vs Friends' Assignments
+
+═══════════════════════════════════════════════════════════════════════════
+
+🎉 You're all set! Happy studying with friends! 📚
+
+═══════════════════════════════════════════════════════════════════════════
